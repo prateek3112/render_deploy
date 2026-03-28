@@ -274,6 +274,26 @@ def convert():
     finally:
         os.unlink(tmp_path)
 
+# ── API endpoint ─────────────────────────────────────────────────────────────
+@app.route('/api/convert', methods=['POST'])
+def api_convert():
+    """
+    API endpoint — same as /convert but returns JSON error on failure.
+    
+    Usage:
+      curl -X POST https://your-app.onrender.com/api/convert \
+        -F "file=@carousel.html" \
+        -F "width=1080" \
+        -F "height=1080" \
+        --output slides.zip
+    """
+    return convert()  # reuses existing logic
+
+
+# ── Keep-alive ping (call this from cron) ────────────────────────────────────
+@app.route('/ping', methods=['GET'])
+def ping():
+    return jsonify({'status': 'ok', 'message': 'alive'}), 200
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 10000))
