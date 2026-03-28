@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: carousel-converter
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /
+    envVars:
+      - key: PYTHON_ENV
+        value: production
